@@ -18,7 +18,7 @@ clean <- function(data){
  interval[interval < 0] <- NA
  delivery_mean<- mean(interval[is.na(interval)==FALSE])
  interval[is.na(interval)] <- delivery_mean
- data$delivery_date <- interval
+ data$delivery_interval <- interval
 
 
  #deal with age(user_dob), extract the birth year of customers as age
@@ -36,7 +36,7 @@ clean <- function(data){
  return(data)
 }
 
-clean(data = old_data)
+clean.old_data <- clean(data = old_data)
   
 
 
@@ -45,7 +45,7 @@ myFormula <- return ~ delivery_date + item_size + item_color + brand_id +item_pr
 dt <- rpart(myFormula, data=old_data, method = "class" )
 
 #before prediction, clean the newdata
-clean(new_data)
+clean.new_data <- clean(new_data)
 
 #prediction
 pred.dt <- predict(dt, newdata = new_data, type = "prob" )
