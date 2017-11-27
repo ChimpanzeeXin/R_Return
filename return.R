@@ -1,3 +1,4 @@
+
 library(rpart)
 library(rpart.plot)
 library(caret)
@@ -32,6 +33,22 @@ b1 <- c[(1+length(a)):length(c)]
 old_data$brand_id <- a1
 new_data$brand_id <- b1
 
+clean.fac <- function(known,test,att = "item_color"){
+  #known相当于你的old
+  #test相当于你的new
+  #att是你的变量名,输入任何一个都可以
+  #默认值是"item_color"
+  #函数返回一个list,result$Training里面存储你的old,result$Tesing里面存储你的new
+  a <- as.character(known[,c(att)])
+  b <- as.character(test[,c(att)])
+  c <- as.factor(c(a,b))
+  a1 <- c[1:length(a)]
+  b1 <- c[(1+length(a)):length(c)]
+  known$item_color <- a1
+  test$item_color <- b1
+  Result <- list(Trining = known,Testing = test)
+  return(Result)
+}
 #write a function to clean data
 clean <- function(data){
  idx_factor <- sapply(data,is.factor)
